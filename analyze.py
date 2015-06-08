@@ -95,12 +95,18 @@ def main():
   while 1:
     str_input = raw_input('\nAnalysis to run: ')
     if str_input == 'reachability':
-      node1 = raw_input('caller:')
-      node2 = raw_input('callee:')
-      if cg_dfs(calls[node1], node2, [node1], calls):
-        print node1 + "->" + node2 + " is reachable"
+      node1 = raw_input('caller: ')
+      node2 = raw_input('callee: ')
+      if node1 in calls and node2 in calls:
+        if cg_dfs(calls[node1], node2, [node1], calls):
+          print node1 + "->" + node2 + " is reachable"
+        else:
+          print node1 + "->" + node2 + " is unreachable"
       else:
-        print node1 + "->" + node2 + " is unreachable"
+        print "\nSelected unknown function name, please try again"
+        print "Possible functions include:"
+        for key in calls:
+          print "   - " + key
     elif str_input == 'show callgraph':
         graph.write_png('callgraph.png')
         try:
